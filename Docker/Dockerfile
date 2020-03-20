@@ -1,6 +1,6 @@
 FROM centos:7
 
-MAINTAINER Fuchi Corp <fuchicorpsolution@gmail.com>
+LABEL Fuchi Corp <fuchicorpsolution@gmail.com>
 
 ## Version of the Docker
 ENV DOCKERVERSION=18.03.1-ce

@@ -1,19 +1,21 @@
-FROM centos:7
+FROM selenium/standalone-chrome
 
 LABEL Fuchi Corp <fuchicorpsolution@gmail.com>
 
 ## Version of the Docker
 ENV DOCKERVERSION=18.03.1-ce
+ENV MAVEN_VERSION="3.6.3"
+ENV M2_HOME="/opt/apache-maven-3.6.3"
 
-## Installing wget command
-RUN yum install wget -y && yum clean all
+USER root
+## Downloading mvn code
+RUN cd /opt && wget http://apache.spinellicreations.com/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz \
+  && tar -xvzf apache-maven-${MAVEN_VERSION}-bin.tar.gz \ 
+  && sudo update-alternatives --install "/usr/bin/mvn" "mvn" "${M2_HOME}/bin/mvn" 0 \ 
+  && sudo update-alternatives --set mvn ${M2_HOME}/bin/mvn \ 
+  && sudo mkdir /etc/bash_completion.d -p && rm -rf apache-maven-${MAVEN_VERSION}-bin.tar.gz \ 
+  && sudo wget https://raw.github.com/dimaj/maven-bash-completion/master/bash_completion.bash --output-document /etc/bash_completion.d/mvn
 
-## Installing terraform
-RUN wget https://releases.hashicorp.com/terraform/0.11.7/terraform_0.11.7_linux_amd64.zip \
-    && yum install unzip -y \
-    && unzip terraform_0.11.7_linux_amd64.zip \
-    && rm -rf  terraform_0.11.7_linux_amd64.zip \
-    && mv terraform /bin
 
 ## Download docker cli
 RUN curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKERVERSION}.tgz \

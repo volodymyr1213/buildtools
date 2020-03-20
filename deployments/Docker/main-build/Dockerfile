@@ -3,7 +3,7 @@ FROM selenium/standalone-chrome
 LABEL Fuchi Corp <fuchicorpsolution@gmail.com>
 
 ## Version of the Docker
-ENV DOCKERVERSION=18.03.1-ce
+ENV DOCKERVERSION="18.03.1-ce"
 ENV MAVEN_VERSION="3.6.3"
 ENV M2_HOME="/opt/apache-maven-3.6.3"
 
@@ -16,6 +16,9 @@ RUN cd /opt && wget http://apache.spinellicreations.com/maven/maven-3/${MAVEN_VE
   && sudo mkdir /etc/bash_completion.d -p && rm -rf apache-maven-${MAVEN_VERSION}-bin.tar.gz \ 
   && sudo wget https://raw.github.com/dimaj/maven-bash-completion/master/bash_completion.bash --output-document /etc/bash_completion.d/mvn
 
+
+## Installing open JDK 
+RUN sudo apt update && sudo apt install -y openjdk-8-jdk 
 
 ## Download docker cli
 RUN curl -fsSLO https://download.docker.com/linux/static/stable/x86_64/docker-${DOCKERVERSION}.tgz \

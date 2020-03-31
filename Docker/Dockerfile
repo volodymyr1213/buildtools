@@ -26,6 +26,9 @@ RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.13.0/b
     && mv ./kubectl /usr/local/bin/kubectl \
     && mkdir ~/.kube
 
+## Install git command inside docker container 
+RUN yum install git -y
+
 ## Coping the script to set kube config
 COPY . /scripts/Dockerfile/
 
